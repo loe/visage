@@ -46,7 +46,7 @@ class CollectdJSON
    
     opts[:rrds].each_pair do |name, rrd|
       rrd_data = rrd.fetch(:function => "AVERAGE", :start => opts[:start], :end => opts[:end])
-        plugin_instance = {:start => rrd_data[:start], :finish => rrd_data[:finish], :data => rrd_data[:data]}
+        plugin_instance = {:start => rrd_data[:start], :finish => rrd_data[:finish], :data => rrd_data[:data], :colors => {}}
         
         # filter out NaNs, so yajl doesn't choke
         
@@ -58,7 +58,8 @@ class CollectdJSON
 
       # append the line color onto the end of the data set
       plugin_instance[:data].each_key do |source|
-        plugin_instance[:colors] = color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => name)
+        color_or_fallback = color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => name)
+        plugin_instance[:colors].merge!(color_or_fallback.is_a?(Hash) ? color_or_fallback : {source => color_or_fallback})
       end
       values[opts[:host]][opts[:plugin]].merge!({ name => plugin_instance})
     end
@@ -116,7 +117,7 @@ class CollectdJSON
     fallbacks = @fallback_colors.to_a.sort_by {|pair| pair[1]['fallback_order'] }
     fallback = fallbacks.find { |color| !@used_fallbacks.include?(color) }
     @used_fallbacks << fallback
-    fallback[1]['color'] || "#000"
+    fallback ? fallback[1]['color'] : "#000"
   end
 
   class << self
