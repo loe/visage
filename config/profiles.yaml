@@ -33,3 +33,29 @@ profiles:
       - processes-collectd
     splat: processes
     order: 5
+  MySQL:
+    plugins:
+      - mysql/mysql_commands*
+      - mysql/mysql_handler*
+      - mysql/mysql_qcache
+      - mysql/mysql_threads
+      - mysql/mysql_octets
+    splat: mysql
+    order: 6
+  Nginx:
+    plugins:
+      - nginx/nginx_connections*
+    splat: nginx
+    order: 7
+  Memcached:
+    plugins:
+      - memcached/memcached_command-get/memcached_command-set
+      - memcached/memcached_ops-evictions/memcached_ops-misses/memcached_ops-hits
+      - memcached/memcached_items-current
+      - memcached/memcached_connections-current
+      - memcached/memcached_octets
+      - memcached/ps_count
+      - memcached/ps_cputime
+      - memcached/df-cache
+    splat: memcached
+    order: 8
