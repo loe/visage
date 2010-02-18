@@ -4,6 +4,6 @@ window.addEvent('domready', function () {
     document.location.href = e.target.value;
   }
   
-  $('host_list').onchange = changeUrl;
-  $('profile_list').onchange = changeUrl;
+  $('host_list').addEvent('change', changeUrl);
+  $('profile_list').addEvent('change', changeUrl);
 });
