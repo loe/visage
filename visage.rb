@@ -41,6 +41,7 @@ end
 get '/:host' do 
   @hosts = CollectdJSON.hosts
   @profiles = Visage::Config::Profiles.all
+  @profile = Visage::Config::Profiles.all.first
 
   haml :index
 end

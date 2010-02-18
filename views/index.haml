@@ -9,18 +9,18 @@
         %li
           No hosts found. Please check <strong>rrddir</strong> in config/init.rb!
       - else
-        - @hosts.each do |host|
-          %li
-            %a{:href => "/#{host}"}= host
+        %select{:name => "host", :id => "host_list"}
+          - @hosts.each do |host|
+            %option{:value => "/#{[host, params[:profile]].compact.join('/')}", :selected => host == params[:host]}= host
   
   - if host = params[:host]
     %div#profiles.nav
       %h2 Profiles
 
       %ul
-        - @profiles.each do |profile|
-          %li
-            %a{:href => "/#{host}/#{profile.splat}"}= profile.name
+        %select{:name => "profile", :id => "profile_list"}
+          - @profiles.each do |profile|
+            %option{:value => "/#{host}/#{profile.splat}", :selected => profile.splat == params[:profile]}= profile.name
 
 %div#graphs
   - if @profile && @profile.plugins
