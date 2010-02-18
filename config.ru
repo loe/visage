@@ -11,5 +11,9 @@ rescue LoadError
 end
 
 require 'visage'
-run Sinatra::Application
 
+log = File.new('log/visage.log', 'a')
+$stdout.reopen(log)
+$stderr.reopen(log)
+
+run Sinatra::Application
