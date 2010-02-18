@@ -1,33 +1,61 @@
---- 
-profiles: 
-  cpu+load: 
-    plugins: 
-      - cpu-0
+---
+profiles:
+  CPU + Load:
+    plugins:
+      - cpu-0/cpu-user/cpu-system/cpu-idle/cpu-wait/cpu-interrupt
       - cpu-1
       - load/load
       - battery-0
-    name: CPU + Load
+    splat: cpu+load
     order: 1
-  memory: 
-    plugins: 
+  Memory:
+    plugins:
       - memory
       - swap
-    name: Memory
+    splat: memory
     order: 2
-  disk+usage: 
-    plugins: 
+  Disk Usage:
+    plugins:
       - df/df-root
       - disk-sda
-    name: Disk Usage
+    splat: disk+usage
     order: 3
-  network: 
-    plugins: 
+  Networking:
+    plugins:
       - tcpconns-9393-local
       - tcpconns-80-local
-    name: Networking
+      - tcpconns-22-local
+    splat: network
     order: 4
-  processes: 
-    plugins: 
+  Processes:
+    plugins:
       - processes
-    name: Processes
+      - processes-collectd
+    splat: processes
     order: 5
+  MySQL:
+    plugins:
+      - mysql/mysql_commands*
+      - mysql/mysql_handler*
+      - mysql/mysql_qcache
+      - mysql/mysql_threads
+      - mysql/mysql_octets
+    splat: mysql
+    order: 6
+  Nginx:
+    plugins:
+      - nginx/nginx_connections*
+    splat: nginx
+    order: 7
+  Memcached:
+    plugins:
+      - memcached/memcached_command-get/memcached_command-set
+      - memcached/memcached_ops-evictions/memcached_ops-misses/memcached_ops-hits
+      - memcached/memcached_items-current
+      - memcached/memcached_connections-current
+      - memcached/memcached_octets
+      - memcached/ps_count
+      - memcached/ps_cputime
+      - memcached/df-cache
+    splat: memcached
+    order: 8
