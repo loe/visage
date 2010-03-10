@@ -45,7 +45,7 @@ class CollectdJSON
     values = { opts[:host] => { opts[:plugin] => {} } }
    
     opts[:rrds].each_pair do |name, rrd|
-      rrd_data = rrd.fetch(:function => "AVERAGE", :start => opts[:start], :end => opts[:end])
+      rrd_data = rrd.fetch(:function => "AVERAGE", :start => opts[:start].to_i, :end => opts[:end].to_i)
         plugin_instance = {:start => rrd_data[:start], :finish => rrd_data[:finish], :data => rrd_data[:data], :colors => {}}
         
         # filter out NaNs, so yajl doesn't choke
